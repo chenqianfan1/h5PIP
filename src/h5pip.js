@@ -6,7 +6,7 @@
  * @Time   : 10:23
  * @Project: h5PIP
  */
-(function (window){
+(function (window){ 
     /**
      *
      * @constructor
