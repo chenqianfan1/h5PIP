@@ -19,6 +19,10 @@
         var pip = new H5PIP({
             target:"#video"
         });
+        // 打开画中画功能，必须在交互事件处理器中调用才有效。
+        pip.open();
+        // 关闭画中画功能，必须在交互事件处理器中调用才有效。
+        pip.close();
     </script>
     
 ```
