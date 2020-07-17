@@ -32,28 +32,31 @@
         // 视频对象
         this.video = document.querySelector(this.params.target);
 
-        // 模拟按钮点击事件，用于实现自动显示画中画功能。
-        this.simulationBtn = document.createElement("button");
-        this.simulationBtn.id = "h5pip_simulation_btn";
-        this.simulationBtn.style = "display:none";
-        document.querySelector("body").appendChild(this.simulationBtn);
-        this.simulationBtn.addEventListener('click', function (event){
-            // 禁用按钮，防止二次点击
-            this.disabled = true;
-            try {
-                if (self.video !== document.pictureInPictureElement) {
-                    // 尝试进入画中画模式
-                    self.video.requestPictureInPicture();
-                } else {
-                    // 退出画中画
-                    document.exitPictureInPicture();
-                }
-            } catch(error) {
-                console.log('&gt; 出错了！' + error);
-            } finally {
-                this.disabled = false;
-            }
-        });
+        // // 模拟按钮点击事件，用于实现自动显示画中画功能。
+        // this.simulationBtn = document.createElement("button");
+        // this.simulationBtn.id = "h5pip_simulation_btn";
+        // this.simulationBtn.style = "display:none";
+        // document.querySelector("body").appendChild(this.simulationBtn);
+        // this.simulationBtn.addEventListener('click', function (event){
+        //     // 禁用按钮，防止二次点击
+        //     if (this.disabled){
+        //         return;
+        //     }
+        //     this.disabled = true;
+        //     try {
+        //         if (!document.pictureInPictureElement) {
+        //             // 尝试进入画中画模式
+        //             self.video.requestPictureInPicture();
+        //         } else {
+        //             // 退出画中画
+        //             document.exitPictureInPicture();
+        //         }
+        //     } catch(error) {
+        //         console.log('&gt; 出错了！' + error);
+        //     } finally {
+        //         this.disabled = false;
+        //     }
+        // });
 
         // 当前浏览器是否支持画中画。
         this.isSupportedPIP = typeof this.video["requestPictureInPicture"] === "function";
@@ -117,21 +120,27 @@
             var screenLeft = 0;
             var screenBottom = window.innerHeight;
             var rect = this.video.getBoundingClientRect();
+            console.log(rect);
             // ** 矩形相交判断 **
             // 滚动出屏幕底部
             if (rect.top > screenBottom) {
-                this.open(true);
+                console.log("滚动出屏幕底部");
+                this.open(false);
                 // 滚动出屏幕左侧
             }else if (rect.right < screenLeft){
-                this.open(true);
+                console.log("滚动出屏幕左侧");
+                this.open(false);
                 // 滚动出屏幕右侧
             }else if (rect.left > screenRight){
-                this.open(true);
+                console.log("滚动出屏幕右侧");
+                this.open(false);
                 // 滚动出屏幕顶部
             }else if (rect.bottom < screenTop){
-                this.open(true);
+                console.log("滚动出屏幕顶部");
+                this.open(false);
             }else{ // 与屏幕区域相交不显示画中画。
-                this.close(true);
+                console.log("与屏幕区域相交不显示画中画");
+                this.close(false);
             }
         },
 
@@ -152,28 +161,30 @@
                 console.log("当前视频画中画功能未启用！");
                 return;
             }
-            if (simulateClick){
-                this.dispatchSimulateClickEvent();
-            }else{
+            // if (simulateClick){
+            //     this.dispatchSimulateClickEvent();
+            // }else{
                 try {
                     this.pipWindow = this.video.requestPictureInPicture(); // 进入画中画模式
                 } catch (e) {
                     console.error(e) // 处理异常
                 }
-            }
+            // }
         },
 
         /**
          * 抛出模拟单击事件。
          */
         dispatchSimulateClickEvent: function (){
+            //
+            // document.querySelector("#h5pip_simulation_btn").click();
             // $("#h5pip_simulation_btn").click();
             // TODO: 经实际测试，发现模拟鼠标事件在画中画中无效。
-            var ev = document.createEvent('MouseEvent');
-            ev.clientX = 0;
-            ev.clientY = 0;
-            ev.initEvent('click', false, true);
-            document.querySelector("#h5pip_simulation_btn").dispatchEvent(ev)
+            // var ev = document.createEvent('MouseEvent');
+            // ev.clientX = 0;
+            // ev.clientY = 0;
+            // ev.initEvent('click', false, true);
+            // document.querySelector("#h5pip_simulation_btn").dispatchEvent(ev)
         },
 
         /**
@@ -193,16 +204,16 @@
                 console.log("当前视频画中画功能未启用！");
                 return ;
             }
-            if (simulateClick){
-                this.dispatchSimulateClickEvent();
-            }else{
+            // if (simulateClick){
+            //     this.dispatchSimulateClickEvent();
+            // }else{
                 // 退出画中画
                 try{
                     document.exitPictureInPicture();
                 }catch (e){
                     console.error(e) // 处理异常
                 }
-            }
+            // }
         }
     };
 
