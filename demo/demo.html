@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>h5PIP 视频画中画测试</title>
+    <script src="../src/h5pip.js"></script>
+    <style>
+        #content{
+            width:300px;
+            height:1280px;
+        }
+    </style>
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
 </head>
 <body>
-$END$
+<video id="video" src="./fish-16166-s.mp4" controls playsinline loop></video>
+<div id="content"></div>
+
+<script type="text/javascript">
+
+    //
+    var pip = new H5PIP({
+        target:"#video"
+    });
+
+</script>
 </body>
 </html>
